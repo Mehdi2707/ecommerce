@@ -10,19 +10,14 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/categories', name: 'categories_')]
 class CategoriesController extends AbstractController
 {
-    #[Route('/', name: 'index')]
-    public function index(): Response
-    {
-        return $this->render('products/index.html.twig', [
-            'controller_name' => 'ProductsController',
-        ]);
-    }
-    
     #[Route('/{slug}', name: 'list')]
     public function list(Categories $categories): Response
     {
+        $products = $categories->getProducts();
+
         return $this->render('categories/list.html.twig', [
             'category' => $categories,
+            'products' => $products,
         ]);
     }
 }
