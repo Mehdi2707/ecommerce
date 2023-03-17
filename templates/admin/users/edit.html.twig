@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'un utilisateur{% endblock %}
+
+{% block body %}
+    <main class="container">
+        <section class="row">
+            <div class="col-12">
+                <h1>Modification d'un utilisateur</h1>
+                {{ form_start(form) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.lastname, {'label': 'Nom'}) }}
+                {{ form_row(form.firstname, {'label': 'Prénom'}) }}
+                {{ form_row(form.address, {'label': 'Adresse'}) }}
+                {{ form_row(form.zipcode, {'label': 'Code postal'}) }}
+                {{ form_row(form.city, {'label': 'Ville'}) }}
+                <div class="mb-3">
+                    <label for="pass" class="form-label">Mot de passe</label>
+                    <input type="password" id="pass" name="pass" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="pass2" class="form-label">Confirmer le mot de passe</label>
+                    <input type="password" id="pass2" name="pass2" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Modifier</button>
+                {{ form_end(form) }}
+            </div>
+        </section>
+    </main>
+{% endblock %}

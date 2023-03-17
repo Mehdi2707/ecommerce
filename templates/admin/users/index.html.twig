@@ -48,7 +48,7 @@
                                     <label class="form-check-label" for="switch{{ user.id }}"></label>
                                 </div>
                             </td>
-                            <td><a href="{# path('admin_users_edit', {id: user.id}) #}" class="btn btn-success">Modifier</a></td>
+                            <td><a href="{{ path('admin_users_edit', {id: user.id}) }}" class="btn btn-success">Modifier</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
