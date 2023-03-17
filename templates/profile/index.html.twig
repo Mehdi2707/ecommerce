@@ -1,20 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/mehdi/Ecommerce/src/Controller/ProfileController.php'|file_link(0) }}">src/Controller/ProfileController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/mehdi/Ecommerce/templates/profile/index.html.twig'|file_link(0) }}">templates/profile/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <main class="container">
+        <section class="row">
+            <div class="col-12">
+                <h1>Vos informations</h1>
+            </div>
+            <div class="col-6">
+                <p>Email :</p>
+                <p>Nom :</p>
+                <p>Prénom :</p>
+                <p>Adresse :</p>
+                <p>Code postal :</p>
+                <p>Ville :</p>
+                <p>Compte vérifié :</p>
+            </div>
+            <div class="col-6">
+                <p>{{ app.user.email }}</p>
+                <p>{{ app.user.lastname }}</p>
+                <p>{{ app.user.firstname }}</p>
+                <p>{{ app.user.address }}</p>
+                <p>{{ app.user.zipcode }}</p>
+                <p>{{ app.user.city }}</p>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="switch{{ app.user.id }}" {{ app.user.isVerified ? 'checked' : '' }} disabled>
+                    <label class="form-check-label" for="switch{{ app.user.id }}"></label>
+                </div>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+                <a href="{{ path('profile_edit') }}" class="btn btn-primary">Modifier mon profil</a>
+                <a href="{{ path('profile_edit_password') }}" class="btn btn-primary">Modifier mon mot de passe</a>
+            </div>
+            <div class="col-4"></div>
+        </section>
+    </main>
 {% endblock %}
