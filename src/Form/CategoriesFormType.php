@@ -15,7 +15,6 @@ class CategoriesFormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('categoryOrder')
             ->add('parent', EntityType::class, [
                 'class' => Categories::class,
                 'query_builder' => function (CategoriesRepository $e) {
@@ -23,6 +22,8 @@ class CategoriesFormType extends AbstractType
                         ->where('c.parent IS NULL')
                         ->orderBy('c.name', 'ASC');
                 },
+                'required' => false,
+                'placeholder' => 'Aucun parent',
             ])
         ;
     }

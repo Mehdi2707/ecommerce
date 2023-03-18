@@ -8,7 +8,7 @@
             {% include "_partials/_adminnav.html.twig" %}
             <main class="col-9 border-light bg-white p-2">
                 <h1>Edition d'une catégorie</h1>
-                {% include "admin/categories/_form.html.twig" %}
+                {% include "admin/categories/_form.html.twig"with { 'button_label': 'Modifier' } %}
             </main>
         </div>
     </div>

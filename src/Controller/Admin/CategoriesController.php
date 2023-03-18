@@ -37,8 +37,20 @@ class CategoriesController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $slug = $slugger->slug($category->getName());
+            $slug = $slugger->slug($category->getName())->lower();
             $category->setSlug($slug);
+
+            // Récupération de l'entier maximum dans la colonne categoryOrder
+            $queryBuilder = $entityManager->createQueryBuilder();
+            $queryBuilder->select('MAX(c.categoryOrder)')
+                ->from(Categories::class, 'c');
+            $maxCategoryOrder = $queryBuilder->getQuery()->getSingleScalarResult() ?? 0;
+
+            // Incrémentation de l'entier
+            $categoryOrder = $maxCategoryOrder + 1;
+
+            // Attribution de la valeur de l'entier à la propriété categoryOrder de l'objet Category
+            $category->setCategoryOrder($categoryOrder);
 
             $entityManager->persist($category);
             $entityManager->flush();
@@ -54,49 +66,29 @@ class CategoriesController extends AbstractController
     }
 
     #[Route('/edition/{id}', name: 'edit')]
-    public function edit(Products $products, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, PictureService $pictureService): Response
+    public function edit(Categories $categories, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-//        $this->denyAccessUnlessGranted('PRODUCT_EDIT', $products);
-//
-////        $prix = $products->getPrice() / 100;
-////        $products->setPrice($prix);
-//
-//        $productForm = $this->createForm(ProductsFormType::class, $products);
-//
-//        $productForm->handleRequest($request);
-//
-//        if($productForm->isSubmitted() && $productForm->isValid())
-//        {
-//            $images = $productForm->get('images')->getData();
-//
-//            foreach($images as $image)
-//            {
-//                $folder = 'products';
-//
-//                $fichier = $pictureService->add($image, $folder, 300, 300);
-//
-//                $img = new Images();
-//                $img->setName($fichier);
-//                $products->addImage($img);
-//            }
-//
-//            $slug = $slugger->slug($products->getName());
-//            $products->setSlug($slug);
-//
-////            $prix = $products->getPrice() * 100;
-////            $products->setPrice($prix);
-//
-//            $entityManager->persist($products);
-//            $entityManager->flush();
-//
-//            $this->addFlash('success', 'Produit modifier avec succès');
-//
-//            return $this->redirectToRoute('admin_products_index');
-//        }
+        $this->denyAccessUnlessGranted('CATEGORIES_EDIT', $categories);
+
+        $form = $this->createForm(CategoriesFormType::class, $categories);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $slug = $slugger->slug($categories->getName())->lower();
+            $categories->setSlug($slug);
+
+            $entityManager->persist($categories);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Catégorie modifier avec succès');
+
+            return $this->redirectToRoute('admin_categories_index');
+        }
 
         return $this->render('admin/categories/edit.html.twig', [
-//            'productForm' => $productForm->createView(),
-//            'product' => $products
+            'form' => $form->createView(),
         ]);
     }
 

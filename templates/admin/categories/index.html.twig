@@ -30,6 +30,7 @@
                                 </td>
                                 <td>{{ categorie.slug }}</td>
                                 <td>{{ categorie.categoryOrder }}</td>
+                                <td><a href="{{ path('admin_categories_edit', {id: categorie.id}) }}" class="btn btn-success">Modifier</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
