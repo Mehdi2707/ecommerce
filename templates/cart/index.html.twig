@@ -23,11 +23,14 @@
                 <tbody>
                     {% for element in dataPanier %}
                         <tr>
-                            <td>{{ element.produit.name }}</td>
-                            <td class="text-end">{{ element.produit.price / 100 }}€</td>
-                            <td>{{ element.quantite }}</td>
-                            <td class="text-end">{{ element.quantite * (element.produit.price / 100) }}€</td>
-                            <td>
+                            <td class="text-center">
+                                <h3>{{ element.produit.name }}</h3>
+                                <img class="img-thumbnail" src="{{ asset('assets/uploads/products/mini/300x300-' ~ element.produit.images[0].name) }}" alt="{{ element.produit.name }}" />
+                            </td>
+                            <td class="align-middle">{{ element.produit.price / 100 }}€</td>
+                            <td class="align-middle">{{ element.quantite }}</td>
+                            <td class="align-middle">{{ element.quantite * (element.produit.price / 100) }}€</td>
+                            <td class="align-middle">
                                 <a href="{{ path('cart_add', {id: element.produit.id}) }}" class="btn btn-success">Ajouter</a>
                                 <a href="{{ path('cart_remove', {id: element.produit.id}) }}" class="btn btn-warning">Retirer 1</a>
                                 <a href="{{ path('cart_delete', {id: element.produit.id}) }}" class="btn btn-danger">Supprimer</a>
@@ -43,7 +46,9 @@
                     <tr>
                         <td colspan="3">Total</td>
                         <td class="text-end">{{ total }}€</td>
-                        <td></td>
+                        <td>
+                            <a href="{{ path('cart_confirm') }}" class="btn btn-success">Valider mon panier</a>
+                        </td>
                     </tr>
                 </tfoot>
             </table>

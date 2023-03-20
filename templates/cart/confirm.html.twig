@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation du panier{% endblock %}
+
+{% block body %}
+<main class="container">
+    <section class="row">
+        <div class="col-12">
+            <h1>Confirmation du panier</h1>
+        </div>
+
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for element in dataPanier %}
+                        <tr>
+                            <td class="align-middle">{{ element.produit.name }}</td>
+                            <td class="align-middle">{{ element.produit.price / 100 }}€</td>
+                            <td class="align-middle">{{ element.quantite }}</td>
+                            <td class="align-middle">{{ element.quantite * (element.produit.price / 100) }}€</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-bg-dark">Total</td>
+                        <td class="align-middle">{{ total }}€</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="col-12">
+                <h2>Adresse</h2>
+                <div>{{ user.firstname }} {{ user.lastname }}</div>
+                <div>{{ user.address }}</div>
+                <div>{{ user.city }}</div>
+                <div>{{ user.zipcode }}</div>
+            </div>
+            <div class="col-12 mt-3 text-end">
+                <a href="{{ path('cart_pay') }}" class="btn btn-success">Procéder au paiement</a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
