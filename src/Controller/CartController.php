@@ -125,8 +125,13 @@ class CartController extends AbstractController
         $panier = $session->get("panier", []);
         $user = $this->getUser();
 
+        if(!$user->getIsVerified())
+        {
+            $this->addFlash('danger', 'Votre compte n\'est pas activé');
+            return $this->redirectToRoute('app_main');
+        }
+
         $dataPanier = [];
-        //$total = 0;
 
         foreach($panier as $id => $quantite)
         {
@@ -135,7 +140,6 @@ class CartController extends AbstractController
                 "produit" => $product,
                 "quantite" => $quantite
             ];
-            //$total += ($product->getPrice() /100 ) * $quantite;
         }
 
         $order = new Orders();

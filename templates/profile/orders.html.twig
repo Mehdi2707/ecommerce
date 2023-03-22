@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+    <main class="container">
+        <section class="row">
+            <div class="col-12">
+                <h1>Vos commandes</h1>
+            </div>
+
+            {% for order in orders %}
+                <div class="col-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Date de la commande :</th>
+                            <th>Référence :</th>
+                            <th>Détails de la commande :</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle">{{ order.createdAt|date("d/m/Y H:i:s") }}</td>
+                                <td class="align-middle">{{ order.reference }}</td>
+                                <td class="align-middle">
+                                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#showOrdersDetails{{ order.id }}" role="button" aria-expanded="false" aria-controls="showOrdersDetails{{ order.id }}">Voir</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="collapse multi-collapse" id="showOrdersDetails{{ order.id }}">
+                        <div class="card card-body">
+                            {% set total = 0 %}
+                            {% for details in ordersDetails[order.id] %}
+                                {% set total = total + details.price %}
+                                Produit : {{ details.products.name }}
+                                </br>
+                                Quantité : {{ details.quantity }}
+                                </br>
+                                Prix : {{ details.price / 100 }}€
+                                {% if loop.last == false %}
+                                    <hr>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="bg-light text-center m-3">
+                                Total : {{ total / 100 }}€
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+{% endblock %}

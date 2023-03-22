@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\UsersFormType;
+use App\Repository\OrdersDetailsRepository;
+use App\Repository\OrdersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,10 +70,24 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/commandes', name: 'orders')]
-    public function orders(): Response
+    public function orders(OrdersRepository $ordersRepository, OrdersDetailsRepository $detailsRepository, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
+        $orders = $ordersRepository->findBy(['users' => $this->getUser()]);
+        $ordersDetails = [];
+
+        foreach ($orders as $order)
+        {
+            $dql = "SELECT od FROM App\Entity\OrdersDetails od WHERE od.orders = :orders";
+            $query = $entityManager->createQuery($dql);
+            $query->setParameter('orders', $order);
+            $details = $query->getResult();
+
+            $ordersDetails[$order->getId()] = $details;
+        }
+
+        return $this->render('profile/orders.html.twig', [
+            'orders' => $orders,
+            'ordersDetails' => $ordersDetails
         ]);
     }
 }
