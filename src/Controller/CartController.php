@@ -156,7 +156,22 @@ class CartController extends AbstractController
             $orderDetails->setQuantity($product['quantite']);
             $orderDetails->setPrice($product['quantite'] * $product['produit']->getPrice());
 
-            $entityManager->persist($orderDetails);
+            $produit = $product['produit'];
+
+            // vérifier si le stock est suffisant
+            $stock = $produit->getStock();
+            if ($stock >= $product['quantite']) {
+                // déduire la quantité commandée du stock
+                $stock -= $product['quantite'];
+                $produit->setStock($stock);
+
+                $entityManager->persist($orderDetails);
+                $entityManager->persist($produit);
+            } else {
+                // stock insuffisant, annuler la commande
+                $this->addFlash("danger", "Le stock de ".$produit->getName()." est insuffisant pour satisfaire la commande.");
+                return $this->redirectToRoute('cart_index');
+            }
         }
 
         $entityManager->flush();
