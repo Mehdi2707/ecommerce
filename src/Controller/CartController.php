@@ -126,7 +126,7 @@ class CartController extends AbstractController
         $user = $this->getUser();
 
         $dataPanier = [];
-        $total = 0;
+        //$total = 0;
 
         foreach($panier as $id => $quantite)
         {
@@ -135,7 +135,7 @@ class CartController extends AbstractController
                 "produit" => $product,
                 "quantite" => $quantite
             ];
-            $total += ($product->getPrice() /100 ) * $quantite;
+            //$total += ($product->getPrice() /100 ) * $quantite;
         }
 
         $order = new Orders();
@@ -150,7 +150,7 @@ class CartController extends AbstractController
             $orderDetails->setOrders($order);
             $orderDetails->setProducts($product['produit']);
             $orderDetails->setQuantity($product['quantite']);
-            $orderDetails->setPrice($total * 100); // total de chaque produit !!
+            $orderDetails->setPrice($product['quantite'] * $product['produit']->getPrice());
 
             $entityManager->persist($orderDetails);
         }
