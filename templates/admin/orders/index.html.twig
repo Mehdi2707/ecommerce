@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des commandes{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% include "_partials/_adminnav.html.twig" %}
+            <main class="col-9 border-light bg-white p-2">
+                <h1>Liste des commandes</h1>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Référence</th>
+                        <th>Date</th>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            {% for details in ordersDetails[order.id] %}
+                                <tr>
+                                    <td>{{ details.orders.users.email }}</td>
+                                    <td>{{ details.orders.reference }}</td>
+                                    <td>{{ details.orders.createdAt|date("d/m/Y H:i:s") }}</td>
+                                    <td>{{ details.products.name }}</td>
+                                    <td>{{ details.quantity }}</td>
+                                    <td>{{ details.price / 100 }}€</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
+{% endblock %}

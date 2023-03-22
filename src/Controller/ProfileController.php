@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Form\UsersFormType;
-use App\Repository\OrdersDetailsRepository;
 use App\Repository\OrdersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,9 +69,9 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/commandes', name: 'orders')]
-    public function orders(OrdersRepository $ordersRepository, OrdersDetailsRepository $detailsRepository, EntityManagerInterface $entityManager): Response
+    public function orders(OrdersRepository $ordersRepository, EntityManagerInterface $entityManager): Response
     {
-        $orders = $ordersRepository->findBy(['users' => $this->getUser()]);
+        $orders = $ordersRepository->findBy(['users' => $this->getUser()], ['created_at' => 'DESC']);
         $ordersDetails = [];
 
         foreach ($orders as $order)
