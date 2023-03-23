@@ -70,6 +70,22 @@ class ProductsRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Returns the number of products associated with a given category.
+     */
+    public function countByCategoryId(int $categoryId): int
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb
+            ->select('COUNT(p.id)')
+            ->innerJoin('p.categories', 'c')
+            ->where('c.id = :categoryId')
+            ->setParameter('categoryId', $categoryId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Products[] Returns an array of Products objects
 //     */

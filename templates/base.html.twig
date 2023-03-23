@@ -1,19 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %} - E-commerce</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="{{ asset('assets/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="{{ asset('assets/css/template/style.css') }}" rel="stylesheet">
+
+{#        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">#}
         {% block stylesheets %}
         {% endblock %}
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}" defer></script>
+{#        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">#}
+{#        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}" defer></script>#}
         {% block javascripts %}
         {% endblock %}
-        <script src="{{ asset('assets/js/script.js') }}" defer></script>
+{#        <script src="{{ asset('assets/js/script.js') }}" defer></script>#}
     </head>
     <body>
         {% include '_partials/_nav.html.twig' %}
@@ -33,5 +46,22 @@
         {% block body %}{% endblock %}
 
         {% include '_partials/_footer.html.twig' %}
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('assets/easing/easing.min.js') }}"></script>
+        <script src="{{ asset('assets/owlcarousel/owl.carousel.min.js') }}"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="{{ asset('assets/mail/jqBootstrapValidation.min.js') }}"></script>
+        <script src="{{ asset('assets/mail/contact.js') }}"></script>
+
+        <!-- Template Javascript -->
+        <script src="{{ asset('assets/js/template/main.js') }}"></script>
     </body>
 </html>

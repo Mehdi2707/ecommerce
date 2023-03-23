@@ -24,6 +24,9 @@ class Categories
     #[ORM\Column]
     private ?int $categoryOrder = null;
 
+    #[ORM\Column]
+    private ?int $productCount = null;
+
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categories')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?self $parent = null;
@@ -65,6 +68,18 @@ class Categories
     public function setCategoryOrder(int $categoryOrder): self
     {
         $this->categoryOrder = $categoryOrder;
+
+        return $this;
+    }
+
+    public function getProductCount(): ?int
+    {
+        return $this->productCount;
+    }
+
+    public function setProductCount(int $productCount): self
+    {
+        $this->productCount = $productCount;
 
         return $this;
     }
