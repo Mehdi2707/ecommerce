@@ -3,35 +3,67 @@
 {% block title %}{{ category.name }}{% endblock %}
 
 {% block body %}
-    <main class="container">
-        <section class="row">
-            <div class="col-12">
-                <h1>Liste des produits de la catégorie {{ category.name }}</h1>
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">{{ category.name }}</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="{{ path('app_main') }}">Accueil</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">{{ category.name }}</p>
             </div>
-            {% if products is empty %}
-                <div class="col-12">
-                    <h3>Aucun produit dans cette catégorie</h3>
-                </div>
-            {% else %}
-                {% for product in products.data %}
-                    <div class="col-3 mb-3">
-                        <article class="card h-100">
-                            <img src="{{ asset('assets/uploads/products/mini/300x300-' ~ product.images[0].name) }}" class="card-img-top" alt="{{ product.name }}" />
-                            <div class="card-body">
-                                <h2 class="card-title">{{ product.name }}</h2>
-                                <p class="card-text">{{ product.description }}</p>
-                                <a href="{{ path('products_details', {slug: product.slug}) }}" class="btn btn-primary">Voir les détails</a>
-                            </div>
-                        </article>
-                    </div>
-                {% endfor %}
+        </div>
+    </div>
+    <!-- Page Header End -->
 
-                {% set path = 'categories_list' %}
-                {% set slug = category.slug %}
-                {% set pages = products.pages %}
-                {% set currentPage = products.page %}
-                {% include "_partials/_pagination.html.twig" %}
-            {% endif %}
-        </section>
-    </main>
+    <!-- Shop Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+
+            <!-- Shop Product Start -->
+            <div class="col-lg-12 col-md-12">
+                <div class="row pb-3">
+
+                    {% if products is empty %}
+                        <div class="col-12">
+                            <h3>Aucun produit dans cette catégorie</h3>
+                        </div>
+                    {% else %}
+                        {% for product in products.data %}
+                            <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                                <div class="card product-item border-0 mb-4">
+                                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                        <img class="img-fluid w-100" src="{{ asset('assets/uploads/products/mini/300x300-' ~ product.images[0].name) }}" alt="{{ product.name }}">
+                                    </div>
+                                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                        <h6 class="text-truncate mb-3">{{ product.name }}</h6>
+                                        <div class="d-flex justify-content-center">
+                                            <h6>{{ product.price / 100 }}€</h6><h6 class="text-muted ml-2"><del>{{ product.price / 100 + 45.5 }}€</del></h6>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between bg-light border">
+                                        <a href="{{ path('products_details', {slug: product.slug}) }}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Voir les détails</a>
+                                        {% if product.stock > 0 %}
+                                            <a href="{{ path('cart_add', {id: product.id}) }}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Ajouter au panier</a>
+                                        {% else %}
+                                            <span class="text-danger">Temporairement en rupture de stock</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {% set path = 'categories_list' %}
+                        {% set slug = category.slug %}
+                        {% set pages = products.pages %}
+                        {% set currentPage = products.page %}
+                        {% include "_partials/_pagination.html.twig" %}
+                    {% endif %}
+
+                </div>
+            </div>
+            <!-- Shop Product End -->
+        </div>
+    </div>
+    <!-- Shop End -->
 {% endblock %}

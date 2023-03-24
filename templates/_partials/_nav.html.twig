@@ -32,7 +32,7 @@
     </div>
     <div class="row align-items-center py-3 px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
-            <a href="" class="text-decoration-none">
+            <a href="{{ path('app_main') }}" class="text-decoration-none">
                 <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>commerce</h1>
             </a>
         </div>
@@ -97,21 +97,20 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-
                         <a href="{{ path('app_main') }}" class="nav-item nav-link active">Accueil</a>
                         {% if app.user %}
                             {% if is_granted('ROLE_PRODUCT_ADMIN') %}
                                 <a href="{{ path('admin_index') }}" class="nav-item nav-link">Administration</a>
                             {% endif %}
                             <a class="nav-item nav-link" href="{{ path('profile_orders') }}">Mes commandes</a>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{ path('app_contact') }}" class="nav-item nav-link">Contact</a>
                     </div>
                             <div class="navbar-nav ml-auto py-0">
                                 <a href="{{ path('profile_index') }}" class="nav-item nav-link">Mon compte</a>
                                 <a href="{{ path('app_logout') }}" class="nav-item nav-link">Me déconnecter</a>
                             </div>
                         {% else %}
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{ path('app_contact') }}" class="nav-item nav-link">Contact</a>
                     </div>
                             <div class="navbar-nav ml-auto py-0">
                                 <a href="{{ path('app_login') }}" class="nav-item nav-link">Me connecter</a>

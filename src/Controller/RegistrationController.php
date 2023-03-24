@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
 
 
             $mailService->send(
-                'd38.h4ck3ur@live.fr',
+                $this->getParameter('app.mailaddress'),
                 $user->getEmail(),
                 'Activation de votre compte sur le site E-commerce',
                 'register',
@@ -125,7 +125,7 @@ class RegistrationController extends AbstractController
 
 
         $mailService->send(
-            'd38.h4ck3ur@live.fr',
+            $this->getParameter('app.mailaddress'),
             $user->getEmail(),
             'Activation de votre compte sur le site E-commerce',
             'register',

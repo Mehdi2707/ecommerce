@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Repository\CategoriesRepository;
 use App\Repository\ProductsRepository;
+use App\Service\SendMailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,6 +28,25 @@ class MainController extends AbstractController
         return $this->render('main/index.html.twig', [
             'categories' => $categories,
             'products' => $products
+        ]);
+    }
+
+    #[Route('/contact', name: 'app_contact')]
+    public function contact(Request $request, SendMailService $mailService): Response
+    {
+        if($request->isMethod('POST'))
+        {
+            $mailService->send(
+                $request->get('email'),
+                $this->getParameter('app.mailaddress'),
+                $request->get('subject'),
+                'contact',
+                [ 'name' => $request->get('name'), 'message' => $request->get('message')]
+            );
+            return new Response('OK', Response::HTTP_OK);
+        }
+
+        return $this->render('main/contact.html.twig', [
         ]);
     }
 

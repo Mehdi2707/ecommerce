@@ -65,7 +65,7 @@ class SecurityController extends AbstractController
                 ];
 
                 $mailService->send(
-                    'd38.h4ck3ur@live.fr',
+                    $this->getParameter('app.mailaddress'),
                     $user->getEmail(),
                     'Réinitialisation de mot de passe',
                     'password_reset',
