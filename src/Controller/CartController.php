@@ -96,6 +96,9 @@ class CartController extends AbstractController
         $panier = $session->get("panier", []);
         $user = $this->getUser();
 
+        if(!$user)
+            return $this->redirectToRoute('app_login');
+
         if(empty($panier))
             return $this->redirectToRoute('cart_index');
 
