@@ -8,6 +8,7 @@ use App\Entity\Products;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,6 +54,25 @@ class CartController extends AbstractController
         $session->set("panier", $panier);
 
         return $this->redirectToRoute('cart_index');
+    }
+
+    #[Route('/ajoutRapide/{id}', name: 'addFast')]
+    public function addFast(Products $products, SessionInterface $session, Request $request): Response
+    {
+        $panier = $session->get("panier", []);
+        $id = $products->getId();
+
+        if(!empty($panier[$id]))
+            $panier[$id]++;
+        else
+            $panier[$id] = 1;
+
+        $session->set("panier", $panier);
+
+        $refererUrl = $request->headers->get('referer');
+        $redirectUrl = $refererUrl ?? $this->generateUrl('homepage');
+
+        return $this->redirect($redirectUrl);
     }
 
     #[Route('/enlever/{id}', name: 'remove')]

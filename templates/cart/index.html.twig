@@ -3,37 +3,66 @@
 {% block title %}Mon panier{% endblock %}
 
 {% block body %}
-<main class="container">
-    <section class="row">
-        <div class="col-12">
-            <h1>Mon panier</h1>
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Mon panier</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="{{ path('app_main') }}">Accueil</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Mon panier</p>
+            </div>
         </div>
+    </div>
+    <!-- Page Header End -->
 
-        <div class="col-12">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Produit</th>
-                    <th>Prix</th>
-                    <th>Quantité</th>
-                    <th>Total</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
+    {% set livraison = 10 %}
+    {% if total <= 0 %}
+        {% set livraison = 0 %}
+    {% endif %}
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Produits</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th>Supprimer</th>
+                    </tr>
+                    </thead>
+                    <tbody class="align-middle">
+
                     {% for element in dataPanier %}
                         <tr>
-                            <td class="text-center">
-                                <h3>{{ element.produit.name }}</h3>
-                                <img class="img-thumbnail" src="{{ asset('assets/uploads/products/mini/300x300-' ~ element.produit.images[0].name) }}" alt="{{ element.produit.name }}" />
+                            <td class="align-middle">
+                                <img src="{{ asset('assets/uploads/products/mini/300x300-' ~ element.produit.images[0].name) }}" alt="{{ element.produit.name }}" style="width: 50px;">
+                                {{ element.produit.name }}
                             </td>
                             <td class="align-middle">{{ element.produit.price / 100 }}€</td>
-                            <td class="align-middle">{{ element.quantite }}</td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <a type="button" href="{{ path('cart_remove', {id: element.produit.id}) }}" class="btn btn-sm btn-primary btn-minus" >
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="{{ element.quantite }}">
+                                    <div class="input-group-btn">
+                                        <a type="button" href="{{ path('cart_add', {id: element.produit.id}) }}" class="btn btn-sm btn-primary btn-plus">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="align-middle">{{ element.quantite * (element.produit.price / 100) }}€</td>
                             <td class="align-middle">
-                                <a href="{{ path('cart_add', {id: element.produit.id}) }}" class="btn btn-success">Ajouter</a>
-                                <a href="{{ path('cart_remove', {id: element.produit.id}) }}" class="btn btn-warning">Retirer 1</a>
-                                <a href="{{ path('cart_delete', {id: element.produit.id}) }}" class="btn btn-danger">Supprimer</a>
+                                <a type="button" href="{{ path('cart_delete', {id: element.produit.id}) }}" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-times"></i>
+                                </a>
                             </td>
                         </tr>
                     {% else %}
@@ -41,18 +70,43 @@
                             <td colspan="5" class="text-center">Votre panier est vide</td>
                         </tr>
                     {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3">Total</td>
-                        <td class="text-end">{{ total }}€</td>
-                        <td>
-                            <a href="{{ path('cart_confirm') }}" class="btn btn-success">Valider mon panier</a>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <form class="mb-5" action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control p-4" placeholder="Code Coupon">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary">Ajouter un coupon</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Détails du panier</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Sous-total</h6>
+                            <h6 class="font-weight-medium">{{ total }}€</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Livraison</h6>
+                            <h6 class="font-weight-medium">{{ livraison }}€</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">{{ total + livraison }}€</h5>
+                        </div>
+                        <a type="button" href="{{ path('cart_confirm') }}" class="btn btn-block btn-primary my-3 py-3">Valider mon panier</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
-</main>
+    </div>
+    <!-- Cart End -->
 {% endblock %}
