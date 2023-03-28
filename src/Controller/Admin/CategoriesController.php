@@ -51,6 +51,7 @@ class CategoriesController extends AbstractController
 
             // Attribution de la valeur de l'entier à la propriété categoryOrder de l'objet Category
             $category->setCategoryOrder($categoryOrder);
+            $category->setProductCount('0');
 
             $entityManager->persist($category);
             $entityManager->flush();
