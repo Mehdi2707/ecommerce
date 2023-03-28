@@ -3,10 +3,10 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
+    {% include '_partials/_header.html.twig' with {'titre': 'Inscription'} %}
     <section class="container">
         <div class="row">
             <div class="col">
-                <h1>Inscription</h1>
 
                 {{ form_start(registrationForm) }}
                     <fieldset class="mb-3">

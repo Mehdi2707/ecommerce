@@ -55,7 +55,7 @@ class ProductsController extends AbstractController
             }
 
             $slug = $slugger->slug($product->getName());
-            $product->setSlug($slug);
+            $product->setSlug($slug->lower());
 
 //            $prix = $product->getPrice() * 100;
 //            $product->setPrice($prix);
@@ -101,7 +101,7 @@ class ProductsController extends AbstractController
             }
 
             $slug = $slugger->slug($products->getName());
-            $products->setSlug($slug);
+            $products->setSlug($slug->lower());
 
 //            $prix = $products->getPrice() * 100;
 //            $products->setPrice($prix);

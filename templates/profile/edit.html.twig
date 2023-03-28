@@ -3,11 +3,9 @@
 {% block title %}Modification du profil{% endblock %}
 
 {% block body %}
+    {% include '_partials/_header.html.twig' with {'titre': 'Modifier mes informations'} %}
     <main class="container">
         <section class="row">
-            <div class="col-12">
-                <h1>Vos informations</h1>
-            </div>
             <div class="col-12">
                 {{ form_start(form) }}
                 {{ form_row(form.email) }}

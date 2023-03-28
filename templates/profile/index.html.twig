@@ -3,11 +3,9 @@
 {% block title %}Mon profil{% endblock %}
 
 {% block body %}
+    {% include '_partials/_header.html.twig' with {'titre': 'Mes informations'} %}
     <main class="container">
         <section class="row">
-            <div class="col-12">
-                <h1>Vos informations</h1>
-            </div>
             <div class="col-6">
                 <p>Email :</p>
                 <p>Nom :</p>
@@ -24,17 +22,15 @@
                 <p>{{ app.user.address }}</p>
                 <p>{{ app.user.zipcode }}</p>
                 <p>{{ app.user.city }}</p>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="switch{{ app.user.id }}" {{ app.user.isVerified ? 'checked' : '' }} disabled>
-                    <label class="form-check-label" for="switch{{ app.user.id }}"></label>
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input" type="checkbox" id="switch{{ app.user.id }}" {{ app.user.isVerified ? 'checked' : '' }} disabled>
+                    <label class="custom-control-label" for="switch{{ app.user.id }}"></label>
                 </div>
             </div>
-            <div class="col-4"></div>
-            <div class="col-4">
+            <div class="col-12 text-center">
                 <a href="{{ path('profile_edit') }}" class="btn btn-primary">Modifier mon profil</a>
                 <a href="{{ path('profile_edit_password') }}" class="btn btn-primary">Modifier mon mot de passe</a>
             </div>
-            <div class="col-4"></div>
         </section>
     </main>
 {% endblock %}

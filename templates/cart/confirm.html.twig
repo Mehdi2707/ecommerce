@@ -3,50 +3,104 @@
 {% block title %}Confirmation du panier{% endblock %}
 
 {% block body %}
-<main class="container">
-    <section class="row">
-        <div class="col-12">
-            <h1>Confirmation du panier</h1>
-        </div>
+    {% include '_partials/_header.html.twig' with {'titre': 'Confirmation du panier'} %}
 
-        <div class="col-12">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Produit</th>
-                    <th>Prix</th>
-                    <th>Quantité</th>
-                    <th>Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for element in dataPanier %}
-                        <tr>
-                            <td class="align-middle">{{ element.produit.name }}</td>
-                            <td class="align-middle">{{ element.produit.price / 100 }}€</td>
-                            <td class="align-middle">{{ element.quantite }}</td>
-                            <td class="align-middle">{{ element.quantite * (element.produit.price / 100) }}€</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-bg-dark">Total</td>
-                        <td class="align-middle">{{ total }}€</td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div class="col-12">
-                <h2>Adresse</h2>
-                <div>{{ user.firstname }} {{ user.lastname }}</div>
-                <div>{{ user.address }}</div>
-                <div>{{ user.city }}</div>
-                <div>{{ user.zipcode }}</div>
+    {% set livraison = 10 %}
+    <!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <h4 class="font-weight-semi-bold mb-4">Adresse de livraison</h4>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>Prénom</label>
+                            <input class="form-control" type="text" disabled placeholder="{{ user.firstname }}">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Nom</label>
+                            <input class="form-control" type="text" disabled placeholder="{{ user.lastname }}">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>E-mail</label>
+                            <input class="form-control" type="text" disabled placeholder="{{ user.email }}">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Adresse</label>
+                            <input class="form-control" type="text" disabled placeholder="{{ user.address }}">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Ville</label>
+                            <input class="form-control" type="text" disabled placeholder="{{ user.city }}">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Code postal</label>
+                            <input class="form-control" type="text" disabled placeholder="{{ user.zipcode }}">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 mt-3 text-end">
-                <a href="{{ path('cart_pay') }}" class="btn btn-success">Procéder au paiement</a>
+            <div class="col-lg-4">
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Total de la commande</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="font-weight-medium mb-3">Produits</h5>
+                        {% for element in dataPanier %}
+                            <div class="d-flex justify-content-between">
+                                <p class="w-50">{{ element.produit.name }}</p>
+                                <p>{{ element.quantite }}</p>
+                                <p>{{ element.quantite * (element.produit.price / 100) }}€</p>
+                            </div>
+                        {% endfor %}
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Sous-total</h6>
+                            <h6 class="font-weight-medium">{{ total }}€</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Livraison</h6>
+                            <h6 class="font-weight-medium">{{ livraison }}€</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">{{ total + livraison }}€</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Paiement</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
+                                <label class="custom-control-label" for="paypal">Paypal</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
+                                <label class="custom-control-label" for="directcheck">Carte bancaire</label>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
+                                <label class="custom-control-label" for="banktransfer">Virement bancaire</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <a type="button" href="{{ path('cart_pay') }}" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Procéder au paiement</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
-</main>
+    </div>
+    <!-- Checkout End -->
 {% endblock %}
